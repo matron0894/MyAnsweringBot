@@ -1,0 +1,19 @@
+type: code
+custom_name: How many sentences?
+files:
+- name: main.py
+  visible: true
+  text: from nltk.corpus import gutenberg
+  learner_created: false
+feedback_link: https://hyperskill.org/learn/step/10510#comment
+status: Solved
+feedback:
+  message: |-
+    <html>[+] Test #1. OK
+    [+] Test #2. OK
+    [+] Test #3. OK
+
+    3 of 3 test(s) passed.</html>
+  time: "Fri, 05 May 2023 12:38:14 UTC"
+record: -1
+submission_language: python3

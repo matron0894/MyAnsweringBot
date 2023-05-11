@@ -1,0 +1,15 @@
+content:
+- Basic data types
+- Shorthands
+- Regexp quantifiers
+- Json module
+- Escaping in regexps
+- Split and join
+- Dictionary
+- Series
+- Text similarity
+- Text corpora in NLTK
+- DataFrame
+- Accessing data in a DataFrame
+- .loc   .iloc
+- Tokenization

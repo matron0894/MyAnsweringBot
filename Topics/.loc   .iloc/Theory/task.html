@@ -1,0 +1,170 @@
+<h2>.loc & .iloc</h2>
+<p>Sometimes, we may want to access a piece of information stored in a particular row or a column instead of working with the whole <code class="language-python">DataFrame</code>. The good news is that <code class="language-python">pandas</code> has just the right solution for it. It is called <strong>indexing</strong>, and we<strong> </strong>can select a particular subset of a <code class="language-python">DataFrame</code> or a <code class="language-python">Series</code> to work with it.</p>
+<h5 id="loc">.loc</h5>
+<p>Before we start, let's import <code class="language-python">pandas</code> (abbreviated as <code class="language-python">pd</code>) and create a <code class="language-python">DataFrame</code> from a dictionary:</p>
+<pre><code class="language-python">import pandas as pd
+
+people = {
+    "first_name": ["Michael", "Michael", 'Jane', 'John'], 
+    "last_name": ["Jackson", "Jordan", 'Doe', 'Doe'], 
+    "email": ["mjackson@email.com", "mjordan@email.com", 
+'JaneDoe@email.com', 'JohnDoe@email.com'],
+    "birthday": ["29.09.1958", "17.02.1963", "15.03.1978", "12.05.1979"],
+    "height": [1.75, 1.98, 1.64, 1.8]
+}
+df = pd.DataFrame(people)
+df.head()</code></pre>
+<p>Here is the output:</p>
+<pre><code class="language-no-highlight">  first_name last_name               email    birthday  height
+0    Michael   Jackson  mjackson@email.com  29.09.1958    1.75
+1    Michael    Jordan   mjordan@email.com  17.02.1963    1.98
+2       Jane       Doe   JaneDoe@email.com  15.03.1978    1.64
+3       John       Doe   JohnDoe@email.com  12.05.1979    1.80</code></pre>
+<p><code class="language-python">pandas</code> provides two additional features for selecting a subset of rows and columns: <code class="language-python">.loc</code> and <code class="language-python">.iloc</code>. The first one stands for <strong>locator</strong> and is label-based. <code class="language-python">.iloc</code> stands for <strong>integer locator</strong> and is integer position-based. Note that both features aren't methods: they are Python <strong>properties</strong>, and that's why they use square brackets. First, remember that their core syntax is similar:</p>
+<pre><code class="language-python"> .loc[&lt;row selection&gt;, &lt;optional column selection&gt;]
+.iloc[&lt;row selection&gt;, &lt;optional column selection&gt;]</code></pre>
+<p>Let's start with <code class="language-python">.loc</code>. It can handle integer-based indexes as labels, but for clarity, we will create and name a text index:</p>
+<pre><code class="language-python">df.index = ['first', 'second', 'third', 'fourth']
+df.index.name = 'index'
+df.head()</code></pre>
+<p>Output:</p>
+<pre><code class="language-no-highlight">       first_name last_name               email    birthday  height
+index                                                              
+first     Michael   Jackson  mjackson@email.com  29.09.1958    1.75
+second    Michael    Jordan   mjordan@email.com  17.02.1963    1.98
+third        Jane       Doe   JaneDoe@email.com  15.03.1978    1.64
+fourth       John       Doe   JohnDoe@email.com  12.05.1979    1.80</code></pre>
+<p><code class="language-python">.loc</code> can take:</p>
+<ul>
+<li>a single row label;</li>
+<li>a list of row labels;</li>
+<li>a slice of row labels;</li>
+<li>a result of conditional statements (a boolean array)</li>
+</ul>
+<p>We could also pass columns as the second argument in a similar manner: a single label, a list, or a slice. </p>
+<p>If we pass a single argument, <code class="language-python">pandas</code> will return a <code class="language-python">Series</code>:</p>
+<pre><code class="language-python">df.loc['third']</code></pre>
+<p>Output:</p>
+<pre><code class="language-no-highlight">first_name                 Jane
+last_name                   Doe
+email         JaneDoe@email.com
+birthday             15.03.1978
+height                     1.64
+Name: third, dtype: object</code></pre>
+<p>You can also select a single cell:</p>
+<pre><code class="language-python">df.loc['third', 'last_name']</code></pre>
+<p>Output:</p>
+<pre><code class="language-no-highlight">'Doe'</code></pre>
+<p>As you can see, we returned a <strong>cell value</strong>. In this case, it is of the String type.</p>
+<p>To return a <strong>label list</strong>, we need to do the following:</p>
+<pre><code class="language-python">df.loc[['first','fourth']]</code></pre>
+<p>We get the rows with the first and fourth indexes:</p>
+<pre><code class="language-no-highlight">       first_name last_name               email    birthday  height
+index                                                              
+first     Michael   Jackson  mjackson@email.com  29.09.1958    1.75
+fourth       John       Doe   JohnDoe@email.com  12.05.1979    1.80</code></pre>
+<p>Let's add a column list of labels:</p>
+<pre><code class="language-python">df.loc[['first','fourth'], ['last_name', 'birthday']]</code></pre>
+<p>Output:</p>
+<pre><code class="language-no-highlight">       last_name    birthday
+index                       
+first    Jackson  29.09.1958
+fourth       Doe  12.05.1979</code></pre>
+<p>Note that the first list inside the <code class="language-python">loc</code> square brackets defines the row selection while the second list defines the column selection.</p>
+<p>Here comes a <strong>slice </strong>of row labels:</p>
+<pre><code class="language-python">df.loc['second':'fourth']</code></pre>
+<p>Output:</p>
+<pre><code class="language-no-highlight">       first_name last_name              email    birthday  height
+index                                                             
+second    Michael    Jordan  mjordan@email.com  17.02.1963    1.98
+third        Jane       Doe  JaneDoe@email.com  15.03.1978    1.64
+fourth       John       Doe  JohnDoe@email.com  12.05.1979    1.80</code></pre>
+<p>Same as before, we can introduce a condition (with a column slice):</p>
+<pre><code class="language-python">df.loc[df.birthday == '12.05.1979', 'last_name':'birthday':2]</code></pre>
+<p>Output:</p>
+<pre><code class="language-no-highlight">       last_name    birthday
+index                       
+fourth       Doe  12.05.1979</code></pre>
+<p>The first argument here takes a row<em> </em>while the birthday column is set at <code class="language-python">12.05.1979</code>. The second argument takes columns from <code class="language-python">last_name</code> to <code class="language-python">birthday</code> with a step of 2. That is, it takes every second column, starting from the first one selected.</p>
+<p>Feel free to choose any combination of single values, lists, and slices.</p>
+<h5 id="iloc">.iloc</h5>
+<p>Now, move on to <code class="language-python">.iloc</code>. The core syntax is the same, but this one focuses on the ordinal integer indexes; we cannot use conditionals here. So, switch back to the initial <code class="language-python">DataFrame</code> by resetting and dropping the label index — we don't need it anymore:</p>
+<pre><code class="language-python">df.reset_index(drop=True, inplace=True)
+df.head()</code></pre>
+<p>Output:</p>
+<pre><code class="language-no-highlight">  first_name last_name               email    birthday  height
+0    Michael   Jackson  mjackson@email.com  29.09.1958    1.75
+1    Michael    Jordan   mjordan@email.com  17.02.1963    1.98
+2       Jane       Doe   JaneDoe@email.com  15.03.1978    1.64
+3       John       Doe   JohnDoe@email.com  12.05.1979    1.80</code></pre>
+<p>At first, let's select the first row and column value:</p>
+<pre><code class="language-python">df.iloc[0, 0]</code></pre>
+<p>We returned the top-left <strong>cell</strong>.</p>
+<pre><code class="language-no-highlight">'Michael'</code></pre>
+<p>We can also select four inner cells:</p>
+<pre><code class="language-python">df.iloc[[1, 2], [1, 2]]</code></pre>
+<p>Output:</p>
+<pre><code class="language-no-highlight">  last_name              email
+1    Jordan  mjordan@email.com
+2       Doe  JaneDoe@email.com</code></pre>
+<p>Don't forget about the step! To define a step <code class="language-python">k</code> within a row interval <code class="language-python">[x,y]</code>,  use the following syntax: <code class="language-python">df.iloc[x:y:k, :]</code>. For example, we can list every second row (starting from zero) with this line of code:</p>
+<pre><code class="language-python">df.iloc[::2, :]</code></pre>
+<p>Output:</p>
+<pre><code class="language-no-highlight">  first_name last_name               email    birthday  height
+0    Michael   Jackson  mjackson@email.com  29.09.1958    1.75
+2       Jane       Doe   JaneDoe@email.com  15.03.1978    1.64</code></pre>
+<p>Awesome, isn't it? This technique looks simple if you're already familiar with Python lists.</p>
+<p>Note that <code class="language-python">.iloc</code> takes an integer position. It means that if we don't have an end-to-end line numbering, it will take the row positions. So if we have fancy indexing like this:</p>
+<pre><code class="language-no-highlight">    a  b
+10  1  4
+0   2  5
+20  3  6</code></pre>
+<p><code class="language-python">df.iloc[0]</code> will still select the first row (with an index of <code class="language-python">10</code>):</p>
+<pre><code class="language-no-highlight">a    1
+b    4
+Name: 10, dtype: int64</code></pre>
+<p>And <code class="language-python">df.loc[0]</code> will select the second row (with an index of <code class="language-python">0</code>):</p>
+<pre><code class="language-no-highlight">a    2
+b    5
+Name: 0, dtype: int64</code></pre>
+<p>Use <code class="language-python">.loc</code> and <code class="language-python">.iloc</code> when you want to change a part of a <code class="language-python">DataFrame</code>.</p>
+<p>To sum up, let's look at the main differences between <code class="language-python">.loc</code> and <code class="language-python">.iloc</code> in one table:</p>
+<p style="text-align: center;"> </p>
+<table border="1" cellpadding="1" cellspacing="1">
+<thead>
+<tr>
+<th> </th>
+<th><code class="language-python">.loc</code></th>
+<th><code class="language-python">.iloc</code></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th>Conditional row selection</th>
+<td style="text-align: center;">Yes</td>
+<td style="text-align: center;">No</td>
+</tr>
+<tr>
+<th>Takes rows as</th>
+<td style="text-align: center;">Index names</td>
+<td style="text-align: center;">Index integer position</td>
+</tr>
+<tr>
+<th>Takes columns as</th>
+<td style="text-align: center;">Column names</td>
+<td style="text-align: center;">Column integer position</td>
+</tr>
+</tbody>
+</table>
+<h5 id="modifying-a-dataframe-with-loc-iloc">Modifying a DataFrame with loc &amp; iloc</h5>
+<p>Both methods are not only a convenient way to select a part of a <code class="language-python">DataFrame</code>, but also help modify a part of a <code class="language-python">DataFrame</code> just with one code line. Let's imagine a situation: to save personal data on a server, users must send you a Data Processing Agreement (DPA). Suppose you didn't get the DPA from Jane &amp; John Doe. Let's update our data:</p>
+<pre><code class="language-python">df.iloc[2:, 2:5] = "no DPA"
+</code></pre>
+<p>Here is what we'll get:</p>
+<pre><code class="language-no-highlight">  first_name last_name               email    birthday  height
+0    Michael   Jackson  mjackson@email.com  29.09.1958    1.75
+1    Michael    Jordan   mjordan@email.com  17.02.1963    1.98
+2       Jane       Doe              no DPA      no DPA  no DPA
+3       John       Doe              no DPA      no DPA  no DPA</code></pre>
+<h5 id="conclusion">Conclusion</h5>
+<p>Now you know how to select subsets based on their integer position with <code class="language-python">.iloc</code> and based on labels with <code class="language-python">.loc</code>. Of course, the list of useful methods goes on and you will learn about them in due time. In some cases, it will be easier to use <code class="language-python">.loc</code> with a condition, in others — with basic dot-syntax selecting. Feel free to experiment!</p>

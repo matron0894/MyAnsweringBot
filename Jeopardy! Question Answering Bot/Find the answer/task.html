@@ -1,0 +1,40 @@
+<h5 id="description">Description</h5>
+<p>The last stage of the project infers providing the answer to users. Your program should take the number of the closest topic and find a row with the same number in the training data. When the program finds the answer in the <code class="java">answer</code> column of the table, it should print it.</p>
+<p>If users want to play with the QA bot further and ask about something else? Your program should give an opportunity to ask a few questions, not only one. For this, the answer search algorithm should be repeated until users want to end the conversation with the question-answering system. When it happens, your program should print a farewell message.</p>
+<h5 id="objectives">Objectives</h5>
+<p>In this stage, your program should:</p>
+<ol>
+<li>Preprocess the user's input and the training corpus as before and train the model;</li>
+<li>Using the number of the closest topic, find the answer in the training data;</li>
+<li>Return the answer to the user;</li>
+<li>Print <code class="java">Do you want to ask me again? (yes/no)</code> and input the user's response;</li>
+<li>If the response is <code class="java">yes</code>, the program should print <code class="java">Ask me something!</code> again and repeat the algorithm: get the request, preprocess it, feed it to the model, print the answer, and ask the user again if is there anything else they want to know. If the response is <code class="java">no</code>, your program should print <code class="java">It was nice to play with you! Goodbye!</code></li>
+</ol>
+<h5 id="examples">Examples</h5>
+<p><strong>Example 1</strong>: <em>the QA bot finds the answer to a request.</em></p>
+<pre><code class="language-no-highlight">Hello! I'm Jane, a question answering bot who knows answers to all the questions from the 'Jeopardy!' game.
+Ask me something!
+&gt; Spanish for "mask", this cosmetic is used to color the eyelashes.
+Let's play!
+I know this question: its number is 10569. I'm 78% sure of this.
+The answer is mascara.
+Do you want to ask me again? (yes/no)
+&gt; no
+It was nice to play with you! Goodbye!</code></pre>
+<p><strong>Example 2</strong>: <em>the QA bot finds the answer to two requests.</em></p>
+<pre><code class="language-no-highlight">Hello! I'm Jane, a question answering bot who knows answers to all the questions from the 'Jeopardy!' game.
+Ask me something!
+&gt; A bunch of honeybees on the move.
+Let's play!
+I know this question: its number is 70100. I'm 81% sure of this.
+The answer is a swarm.
+Do you want to ask me again? (yes/no)
+&gt; yes
+Ask me something!
+&gt; This butterfly-shaped gland straddles the windpipe just behind the Adam's apple.
+Let's play!
+I know this question: its number is 76900. I'm 75% sure of this.
+The answer is the thyroid.
+Do you want to ask me again? (yes/no)
+&gt; no
+It was nice to play with you! Goodbye!</code></pre>

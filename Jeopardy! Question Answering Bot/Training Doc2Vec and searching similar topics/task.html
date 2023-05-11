@@ -1,0 +1,32 @@
+<h5 id="description">Description</h5>
+<p>You've moved on to the most important part of every machine learning project — training a model!</p>
+<p>In this stage of the project, train a Doc2Vec model, using the Jeopardy! corpus. The model is the base for the question answering bot. It takes a request and returns some of the closest topic from the preprocessing corpus, which allows finding an answer to the user's question. When training the model, it is essential to choose the parameters correctly. You should use the <a href="https://radimrehurek.com/gensim/auto_examples/tutorials/run_doc2vec_lee.html#training-the-model" rel="noopener noreferrer nofollow" target="_blank">Doc2Vec</a> documentation to complete the stage. Let's experiment with the parameters!</p>
+<ul>
+<li><code class="java">vector_size</code> determines how many features each vector is composed of. The larger the size of the vector, the greater the difference between them;</li>
+<li><code class="java">window</code> determines how many adjacent words will be taken into account when creating a vector;</li>
+<li><code class="java">min_count</code><strong> </strong>allows ignoring rare words;</li>
+<li><code class="java">workers</code> influence the learning rate of the model by distributing calculations between different cores;</li>
+<li><code class="java">epochs</code> help improve prediction accuracy by training in several iterations. More iterations lead to a better result, but this can slow down the model significantly. </li>
+</ul>
+<p>To make sure the model works correctly, you will receive some requests from the corpus. The similarity percentage will show you how correct the model is. If this number is lower than <code class="java">0.5</code>, try to find different parameters for the model's training. Similarity percentage should be printed in a 100% system. So, for example, if the model gives the similarity rank of <code class="java">0.92</code>, your program should convert it to 92%. </p>
+<h5 id="objectives">Objectives</h5>
+<p>In that stage, your program should:</p>
+<ol>
+<li>Preprocess the user's input and the training corpus as before;</li>
+<li>Train the Doc2Vec model using the preprocessed corpus;</li>
+<li>Feed the preprocessed user's request to the model;</li>
+<li>Print a number of the closest topic and similarity percentage using a message <code class="java">I know this question: its number is (the number of the closest topic). I'm (similarity percentage)% sure of this.</code> </li>
+</ol>
+<h5 id="examples">Examples</h5>
+<p><strong>Example 1</strong>: <em>the model provides</em><em> the number of the closest topic and similarity percentage to a user's request </em></p>
+<pre><code class="language-no-highlight">Hello! I'm Jane, a question answering bot who knows answers on all questions from the 'Jeopardy!' game.
+Ask me something!
+&gt; ...in this faith whose name comes from the Greek for "universal"
+Let's play!
+I know this question: its number is 46950. I'm 73% sure of this.</code></pre>
+<p><strong>Example 2</strong>: <em>the model provides the number of the closest topic and similarity percentage to another request</em></p>
+<pre><code class="language-no-highlight">Hello! I'm Jane, a question answering bot who knows answers on all questions from the 'Jeopardy!' game.
+Ask me something!
+&gt; Granddaughter of George III, she became queen after the death of her uncle William IV.
+Let's play!
+I know this question: its number is 14460. I'm 63% sure of this.</code></pre>

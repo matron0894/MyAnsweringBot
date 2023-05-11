@@ -1,0 +1,13 @@
+type: hyperskill
+title: Jeopardy! Question Answering Bot
+language: English
+summary: "<p>Create a bot that can answer questions in different fields of knowledge,\
+  \ using the Jeopardy! question-answering database. In 2011, IBM Watson beat people\
+  \ at this game. Can your QA bot do better?</p><br/><br/>Learn more at <a href=\"\
+  https://hyperskill.org/projects/324?utm_source=ide&utm_medium=ide&utm_campaign=ide&utm_content=project-card\"\
+  >https://hyperskill.org/projects/324</a>"
+programming_language: Python
+content:
+- Jeopardy! Question Answering Bot
+- Topics
+mode: Study

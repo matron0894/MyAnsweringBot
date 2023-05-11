@@ -1,0 +1,109 @@
+<h2>Text similarity</h2>
+<p>Nearly all NLP tasks require understanding a text. <strong>Text similarity</strong> is comparing texts and determining how close they are semantically. For example, <em>I have no coffee left,</em> and <em>My cup is already empty</em>. Humans understand that these two sentences mean the same thing and are close to each other, but they don't share words. This topic will cover why text similarity is an essential concept in NLP. </p>
+<h5 id="text-similarity">Text similarity</h5>
+<p>Let's start with units that we can compare:</p>
+<ul>
+<li>
+<p>Text/document — several connected sentences. For example, an article or a post;</p>
+</li>
+<li>
+<p>Sample — one phrase or sentence. For example, a short message or an expression;</p>
+</li>
+<li>
+<p>Word — a sequence of letters. For example, car or any non-existent word like <code class="language-python">babwls</code>.</p>
+</li>
+</ul>
+<p>Text similarity is an integral part of:</p>
+<ol>
+<li>
+<p>Question answering and search engines — to understand similar queries from users and provide a uniform response. Text similarity helps to group queries close in meaning;</p>
+</li>
+<li>
+<p>Argument mining — to automatically detect arguments, relations, and their internal structure. Text similarity allows for finding the relationships between arguments;</p>
+</li>
+<li>
+<p>Clustering – to find specific groups in a set of text or sentences. For example, finding all articles on one website can be grouped into topics about science, news, sport, and so on. Text similarity helps to determine the closest samples. </p>
+</li>
+</ol>
+<p>There are many other tasks where text similarity techniques are used as an additional part of algorithms. It can help choose the most appropriate or the closest job position for a CV, select the most similar products for a customer shopping when there is no exact product, and so on. You can always find a way to add text similarity in your solution or even as an additional step of <strong>exploratory data analysis</strong> to understand how texts are connected in your data. </p>
+<h5 id="taxonomies-of-text-similarity-and-approaches">Taxonomies of text similarity and approaches</h5>
+<p>We can divide text similarity techniques depending on the amount of text: </p>
+<ul>
+<li>
+<p> <strong>String-based </strong>— similarity measures operate on string sequences and character composition.</p>
+<ul>
+<li>
+<p><strong>Character-based</strong> (sequence-based or <strong>edit distance</strong>, ED) — takes two strings of characters and then calculates the edit distance. The character-based measure helps recognize typographical errors but is useless in identifying rearranged terms. Metrics: Hamming distance, Levenshtein distance, Jaro, N-gram, and others.</p>
+</li>
+<li>
+<p><strong>Term-based</strong> (token-based) – models each string as a set of tokens and uses the overlap of two token sets as likeness quantification. The token-based similarity approach helps recognize the term rearrangement by breaking the strings into substrings. Metrics: Jaccard similarity, Dice's coefficient, Cosine similarity, Manhattan, and Euclidean distance. </p>
+</li>
+</ul>
+</li>
+<li>
+<p><strong>Corpus-based </strong>– determines the similarity between two concepts based on the information extracted from a large corpus. Corpus-based measures are efficient when you need to analyze a specific corpus with certain concepts. For example, the similarity between the words <code class="language-python">a bug</code> and <code class="language-python">a mistake</code> should be close using IT-related corpus. Techniques: Hyperspace Analogue to Language (HAL), Latent Semantic Analysis (LSA), Explicit Semantic Analysis (ESA), Pointwise Mutual Information (PMI), Normalized Google Distance (NGD), and Extracting DIstributionally Similar words using CO-occurrence (DISCO).</p>
+</li>
+</ul>
+<h5 id="lexical-similarity-metrics">Lexical similarity metrics </h5>
+<p>Two samples/texts/words can be analyzed in terms of similarity using two main approaches: <strong>lexical</strong> and <strong>semantic</strong> <strong>similarity</strong>.</p>
+<p>Lexical similarity shows how close two samples are on the character/word/n-gram level. To maintain lexical similarity, we don't need to transform our samples, tokens, characters, and n-grams.</p>
+<p>If we take two samples:</p>
+<ol>
+<li>
+<p>Anny rejected the invitation from Jessy.</p>
+</li>
+<li>
+<p>Jessy rejected the invitation from Anny.</p>
+</li>
+</ol>
+<p>In lexical similarity, these two samples are very close. </p>
+<p>We can use the Overlap coefficient, Levenshtein Distance, Longest Common Substring, Jaro, Needleman-Wunsch, or Jaccard similarity metric for such lexical similarity. </p>
+<h5 id="jaccard-similarity">Jaccard similarity</h5>
+<p>The Jaccard similarity can be expressed as the number of common words over the total number of words in two texts or documents. The Jaccard similarity of two documents ranges from <span class="math-tex">\(0\)</span> to <span class="math-tex">\(1\)</span>, where <span class="math-tex">\(0\)</span> signifies no similarity and <span class="math-tex">\(1\)</span> signifies a complete overlap.</p>
+<p><strong><span class="math-tex">\[\text{Jaccard} (\text{doc}_1, \text{doc}_2) = \frac {|\text{doc}_1 \cap \text{doc}_2|} {|\text{doc}_1 \cup \text{doc}_2|} = \frac {|\text{doc}_1 \cap \text{doc}_2|}{|\text{doc}_1| + |\text{doc}_2| - |\text{doc}_1 \cap \text{doc}_2|}\]</span></strong>Note that both <span class="math-tex">\(\text{doc}_1\)</span> and <span class="math-tex">\(\text{doc}_2\)</span> are sets(only contain the unique values from their respective documents).</p>
+<p>Let's count the Jaccard similarity between examples:</p>
+<pre><code class="language-python">doc_1 = "NLP is important part of AI"
+doc_2 = "NLP is famous for AI chatbots"
+words_doc1 = {nlp, is, important, part, of, ai}
+words_doc2 = {nlp, is, famous, for, ai, chatbots}</code></pre>
+<p>Words in common: <code class="language-python">nlp</code>, <code class="language-python">is</code>, <code class="language-python">ai</code>.</p>
+<p>All words: <code class="language-python">nlp</code> ,<code class="language-python">is</code>, <code class="language-python">important</code>, <code class="language-python">part</code>, <code class="language-python">of</code>, <code class="language-python">ai</code>, <code class="language-python">famous</code>, <code class="language-python">for</code>, <code class="language-python">chatbots</code>.</p>
+<p>Jaccard similarity = 3/9 = 1/3</p>
+<h5 id="semantic-similarity-metrics">Semantic similarity metrics </h5>
+<p>Semantic similarity shows how close two samples are in terms of their meaning. Semantic similarity requires the vectorization of samples, which is also called <strong>embedding</strong>. It can be an embedding of one word or the whole sentence. There are a few approaches how to preparing text embeddings better. You can use TF-IDF, Word2Vec, Transformers sentence embeddings, Bag-of-Words, FastText, and others. We assume that our samples have been prepared and we have embeddings of samples. If we take these examples:</p>
+<ol>
+<li>
+<p>Anny rejected the invitation from Jessy.</p>
+</li>
+<li>
+<p>Jessy rejected the invitation from Anny.</p>
+</li>
+</ol>
+<p>In semantic similarity, they have different meanings. </p>
+<p>We can use Cosine similarity, Euclidean distance, Pointwise mutual information, Word mover's distance, Block distance, and Simple matching coefficient for semantic similarity.</p>
+<h5 id="cosine-similarity">Cosine similarity</h5>
+<p>It measures the cosine angle between two n-dimensional vectors projected in a multi-dimensional space. Cosine distance is always between <span class="math-tex">\(0\)</span> and <span class="math-tex">\(1\)</span>. If the cosine similarity score is <span class="math-tex">\(1\)</span>, two vectors have the same orientation. A value that is closer to <span class="math-tex">\(0\)</span> indicates that the two documents have less similarity:</p>
+<p><strong><span class="math-tex">\[\text{similarity} = \cos (\theta) = \frac {A \cdot B }{\| A \| \| B \|}\]</span></strong>For example:</p>
+<pre><code class="language-python">doc_1 = "NLP is important part of AI"
+doc_2 = "NLP is famous for AI chatbots"</code></pre>
+<p>And that's their bag-of-words representations:</p>
+<pre><code class="language-python">doc_1_vector = [1, 0, 0, 0, 1, 1, 1, 1, 1]
+doc_2_vector = [1, 1, 1, 1, 0, 1, 1, 0, 0]</code></pre>
+<p>We see that the Cosine similarity here is <code class="language-python">0.5</code>.</p>
+<h5 id="euclidean-distance">Euclidean distance</h5>
+<p>Euclidean distance is the distance between two points or a straight line:</p>
+<p style="text-align: center;"><img alt="There is a Euclidean distance visualization" height="527" src="https://ucarecdn.com/82fc5355-95c3-483c-9e76-d51d6b5510d1/" width="1339"/></p>
+<p style="text-align: center;"><span class="math-tex">\[\text{euclidean} (p,q)={\sqrt {(q_{1}-p_{1})^{2}+(q_{2}-p_{2})^{2}}}\]</span></p>
+<p>The larger the distance between two vectors, the lower the similarity score and vice versa. To normalize euclidean distance as it is not in the range of <code class="language-python">0</code> to <code class="language-python">1</code>, we can use Euler's constant as follows:</p>
+<p style="text-align: center;"><strong><span class="math-tex">\[\frac {1}{\mathrm{e}^{d}}\]</span></strong></p>
+<p>For our examples above, we get a euclidean distance of <code class="language-python">2.44</code> or <code class="language-python">0.086</code> after normalization.</p>
+<h5 id="word-movers-distance">Word Mover's Distance</h5>
+<p>Word mover's distance is calculated by the minimum cumulative distance that words from one text document need to travel to match the point cloud of another text document. It uses word2vec vector embeddings of words, so this distance allows us to work with samples with no common words, as in the example below.<br/>
+<br/>
+Under the hook, as a normalization technique, we weigh each distance according to the number of words.<br/>
+<br/>
+The distance can be visualized as illustrated in the following graph.</p>
+<p style="text-align: center;"><img alt="This is an example of words in vector space" height="175" src="https://lh5.googleusercontent.com/pcm9RUPaJ9PnJPZuuMPPUcRxs0kW40yc5L4788snPQYqjfElH_z8_Xpitrpj_dKXCHp1aprPKv9cqyQr1Ga2BAiF4xV7UZm1fIRE3_YcFe1-RUjWFM2KKp7stRdiSz3Ac9SiB-dVUv0BY5W0MXn6JGs" width="396"/></p>
+<h5 id="conclusion">Conclusion</h5>
+<p>In this topic, we have first looked at lexical and semantical similarity metrics: Jaccard similarity, cosine similarity, Euclidean distance, and the word mover's distance. These metrics are only the tip of the iceberg; there are many others. As you may notice, Jaccard distance concerns lexical similarity, while others can be implemented with word embeddings. There is no rule on what metric to choose in one way or another. You should try different ones according to your data and their distribution.</p>
+<p>Text similarity helps us to understand the relatedness of two texts or sentences. Text similarity is helpful for many NLP tasks and can also be used for exploratory data analysis to understand how texts are connected in your data. It can be implemented in lexical or semantic modes. </p>

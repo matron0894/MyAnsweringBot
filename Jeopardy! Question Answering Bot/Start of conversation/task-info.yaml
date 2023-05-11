@@ -1,0 +1,80 @@
+type: edu
+files:
+- name: test/__init__.py
+  visible: false
+  learner_created: false
+- name: test/tests.py
+  visible: false
+  text: |
+    from hstest import StageTest, TestedProgram, dynamic_test, WrongAnswer, TestPassed
+
+
+    class QABotTest(StageTest):
+
+        @dynamic_test
+        def test_greeting(self):
+            pr = TestedProgram()
+            output = pr.start().lower().strip()
+            marks = '''!',."'''
+            for x in output:
+                if x in marks:
+                    output = output.replace(x, "")
+            if "hello im" not in output:
+                raise WrongAnswer(
+                    """Your output should contain "Hello! I'm (QA bot name you choose), question-answering bot who knows answers on all questions from 'Jeopardy!' game", but it doesn't""")
+            elif "a question answering bot who knows answers to all the questions from the jeopardy game" not in output:
+                raise WrongAnswer(
+                    """Your output should contain "Hello! I'm (the QA bot name you chose), a question answering bot who knows answers to all the questions from the 'Jeopardy!' game.", but it doesn't""")
+            elif "ask me something" not in output:
+                raise WrongAnswer("""Your output should contain "Ask me something!", but it doesn't""")
+            question = """It's a "canine" antonym of front-runner, as well as a cartoon canine"""
+            output2 = pr.execute(question).lower()
+            if "let's play" not in output2:
+                raise WrongAnswer("""Your output should contain "Let's play!", but it doesn't""")
+            else:
+                raise TestPassed()
+
+        @dynamic_test
+        def test_greeting(self):
+            pr = TestedProgram()
+            output = pr.start().lower().strip()
+            marks = '''!',."'''
+            for x in output:
+                if x in marks:
+                    output = output.replace(x, "")
+            if "hello im" not in output:
+                raise WrongAnswer(
+                    """Your output should contain "Hello! I'm (QA bot name you choose), question-answering bot who knows answers on all questions from 'Jeopardy!' game", but it doesn't""")
+            elif "a question answering bot who knows answers to all the questions from the jeopardy game" not in output:
+                raise WrongAnswer(
+                    """Your output should contain "Hello! I'm (the QA bot name you chose), a question answering bot who knows answers to all the questions from the 'Jeopardy!' game.", but it doesn't""")
+            elif "ask me something" not in output:
+                raise WrongAnswer("""Your output should contain "Ask me something!", but it doesn't""")
+            question = """From the Greek for "of words", it's all the words belonging to a particular branch of knowledge"""
+            output2 = pr.execute(question).lower()
+            if "let's play" not in output2:
+                raise WrongAnswer("""Your output should contain "Let's play!", but it doesn't""")
+            else:
+                raise TestPassed()
+  learner_created: false
+- name: solution.py
+  visible: true
+  text: |+
+    def greet():
+        print("Hello world!")
+
+  learner_created: false
+- name: tests.py
+  visible: false
+  text: |
+    from test.tests import QABotTest
+
+    if __name__ == '__main__':
+        QABotTest().run_tests()
+  learner_created: false
+feedback_link: https://hyperskill.org/learn/step/26854#comment
+status: Solved
+feedback:
+  message: Congratulations!
+  time: "Mon, 01 May 2023 13:53:53 UTC"
+record: 1

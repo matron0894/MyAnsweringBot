@@ -1,0 +1,133 @@
+<h2>Accessing data in a DataFrame</h2>
+<p>We have already discussed what type of data can be stored in a DataFrame and how it can be created. Now, let's learn how we can modify an existing DataFrame. In this topic, we'll discuss some basic operations, such as <strong>renaming</strong>, <strong>rearranging columns</strong>, or <strong>changing the index</strong>.</p>
+<h5 id="accessing-dataframe-axes">Accessing DataFrame axes</h5>
+<p>First, we need to import <code class="language-python">pandas</code> and create a <code class="language-python">DataFrame</code> from a dictionary:</p>
+<pre><code class="language-python">import pandas as pd
+
+pets = {
+    'species': ['cat', 'dog', 'parrot', 'cockroach'], 
+    'name': ['Dr. Mittens Lamar', 'Diesel', 'Peach', 'Richard'], 
+    'legs': [4, 4, 2, 6],
+    'wings': [0, 0, 2, 4],
+    'looking_for_home': ['no', 'no', 'no', 'yes']
+}
+df = pd.DataFrame(pets)
+df.head()</code></pre>
+<p>Here is the output:</p>
+<pre><code class="language-no-highlight">+----+-----------+-------------------+--------+---------+--------------------+
+|    | species   | name              |   legs |   wings | looking_for_home   |
+|----+-----------+-------------------+--------+---------+--------------------|
+|  0 | cat       | Dr. Mittens Lamar |      4 |       0 | no                 |
+|  1 | dog       | Diesel            |      4 |       0 | no                 |
+|  2 | parrot    | Peach             |      2 |       2 | no                 |
+|  3 | cockroach | Richard           |      6 |       4 | yes                |
++----+-----------+-------------------+--------+---------+--------------------+</code></pre>
+<p>We can change indexes both in <code class="language-python">DataFrames</code> and <code class="language-python">Series</code>. Indexes can employ different <strong>data types </strong>such as strings, Datetime objects, float numbers, boolean values, and others.</p>
+<p>You can see the row index in the first column on the left. Column names (<strong>labels</strong>) are in the header. Another way to describe indexing is <strong>axis labeling</strong>. You can see two axes in our data frame, vertical (rows) — <code class="language-python">axis 0</code> and horizontal (columns) — <code class="language-python">axis 1</code>. Let's take a look at the axes of our <code class="language-python">DataFrame</code> by accessing the <code class="language-python">df.axes</code> attribute.</p>
+<p>This is what we'll get:</p>
+<pre><code class="language-no-highlight">[RangeIndex(start=0, stop=4, step=1),
+ Index(['species', 'name', 'legs', 'wings', 'looking_for_home'], dtype='object')]</code></pre>
+<p>The first object in the list is the indexing method for rows and the second for columns.</p>
+<p>The default way of indexing data containing n rows is by using an integer range 0, 1, 2, 3,..., n−1. This index reflects the positions of the elements. As you can see above, our <code class="language-python">DataFrame</code> uses only this type of row indexing (integer range): the first row has the <code class="language-python">0</code> index, the last row has the <code class="language-python">3</code> index. Let's check the output of the <code class="language-python">df.info()</code> method:</p>
+<pre><code class="language-python">&lt;class 'pandas.core.frame.DataFrame'&gt;
+RangeIndex: 4 entries, 0 to 3
+Data columns (total 5 columns):
+ #   Column            Non-Null Count  Dtype 
+---  ------            --------------  ----- 
+ 0   species           4 non-null      object
+ 1   name              4 non-null      object
+ 2   legs              4 non-null      int64 
+ 3   wings             4 non-null      int64 
+ 4   looking_for_home  4 non-null      object
+dtypes: int64(2), object(3)
+memory usage: 288.0+ bytes</code></pre>
+<p>As you can see, the first line describes the object class (<code class="language-python">DataFrame</code>), then the data type for indexing, and then there is a list of columns that contains positional column indexes, column labels, <code class="language-python">Non-null Count</code> (a number of non-empty rows,) and <code class="language-python">Dtype</code> (a data type, it is automatically detected as <code class="language-python">object</code> by Pandas).</p>
+<p>The row index object is stored in<strong> </strong><code class="language-python">df.index</code>. We can see the current index by calling the corresponding attribute in the data frame:</p>
+<pre><code class="language-no-highlight">RangeIndex(start=0, stop=4, step=1)</code></pre>
+<p>Since there are no row labels, the attribute will return an integer range. You can achieve the same result by using <code class="language-python">df.axes[0]</code>.</p>
+<p><b>Tip:</b> <code class="language-python">.info()</code> also gives you positional indexes. In addition to positional indexing, it sometimes helps to use custom labels. </p>
+<p>To see the <strong>column labels</strong> of a <code class="language-python">DataFrame</code>, use <code class="language-python">df.columns</code>:</p>
+<pre><code class="language-no-highlight">Index(['species', 'name', 'legs', 'wings', 'looking_for_home'], dtype='object')</code></pre>
+<h5 id="setting-changing-and-resetting-an-index">Setting, changing, and resetting an index</h5>
+<p>One way to change column names is to assign a new value to the <code class="language-python">columns</code> attribute. The new value should have the same length as the number of columns.</p>
+<p>Let's change the value of some columns by assigning a list of new values to the columns attribute:</p>
+<pre><code class="language-python">df.columns = ['col', 'col2', 'col3', 'col4',  'col5']
+df.head()</code></pre>
+<p>Here is the output:</p>
+<pre><code class="language-no-highlight">+----+-----------+-------------------+--------+--------+--------+
+|    | col       | col2              |   col3 |   col4 | col5   |
+|----+-----------+-------------------+--------+--------+--------|
+|  0 | cat       | Dr. Mittens Lamar |      4 |      0 | no     |
+|  1 | dog       | Diesel            |      4 |      0 | no     |
+|  2 | parrot    | Peach             |      2 |      2 | no     |
+|  3 | cockroach | Richard           |      6 |      4 | yes    |
++----+-----------+-------------------+--------+--------+--------+</code></pre>
+<p>As you can see, the columns now have different names. We can assign a new list of labels to the <code class="language-python">index</code> attribute:</p>
+<pre><code class="language-python">df.index = ['row', 'row2', 'row3', 'row4']
+df.head()</code></pre>
+<p>This is what the table will look like:</p>
+<pre><code class="language-no-highlight">+------+-----------+-------------------+--------+--------+--------+
+|      | col       | col2              |   col3 |   col4 | col5   |
+|------+-----------+-------------------+--------+--------+--------|
+| row  | cat       | Dr. Mittens Lamar |      4 |      0 | no     |
+| row2 | dog       | Diesel            |      4 |      0 | no     |
+| row3 | parrot    | Peach             |      2 |      2 | no     |
+| row4 | cockroach | Richard           |      6 |      4 | yes    |
++------+-----------+-------------------+--------+--------+--------+</code></pre>
+<p>You can also use any column as an index. Let's index our data by name. We can do it with the <code class="language-python">set_index()</code> method.</p>
+<p> </p>
+<p></p><div class="alert alert-warning">Most <code class="language-python">pandas</code> functions do not change the existing <code class="language-python">DataFrame</code> but instead return a new <code class="language-python">DataFrame</code> object. So we can either assign a new <code class="language-python">DataFrame</code> object to our <code class="language-python">df</code> variable or use an optional argument <code class="language-python">inplace=True</code>. It will alter the existing <code class="language-python">DataFrame</code>.</div>
+<p> </p>
+<p>Let's return to our <code class="language-python">DataFrame</code> and reset its index. Note that the <code class="language-python">DataFrame</code> will no longer display the integer range:</p>
+<pre><code class="language-python">df.set_index('name', inplace=True)  # is equivalent to df = df.set_index('name')
+df.head()</code></pre>
+<p>Here is the output:</p>
+<pre><code class="language-no-highlight">+-------------------+-----------+--------+---------+--------------------+
+|                   | species   |   legs |   wings | looking_for_home   |
+|-------------------+-----------+--------+---------+--------------------|
+| name              |           |        |         |                    |
+|-------------------+-----------+--------+---------+--------------------|
+| Dr. Mittens Lamar | cat       |      4 |       0 | no                 |
+| Diesel            | dog       |      4 |       0 | no                 |
+| Peach             | parrot    |      2 |       2 | no                 |
+| Richard           | cockroach |      6 |       4 | yes                |
++-------------------+-----------+--------+---------+--------------------+</code></pre>
+<p>Indexing is based on the <code class="language-python">name</code> column.</p>
+<p>If we look at the index attribute now using <code class="language-python">df.index</code>, we can see that it changed from range to the list of names:</p>
+<pre><code class="language-no-highlight">Index(['Dr. Mittens Lamar', 'Diesel', 'Peach', 'Richard'], dtype='object', name='name')</code></pre>
+<p><b>Tip:</b> Only <code class="language-python">DataFrames</code> have the <code class="language-python">.set_index()</code> method.</p>
+<p>We can set the index column back to default (integer range) by using <code class="language-python">reset_index()</code>. As mentioned above, use <code class="language-python">inplace=True</code> to initiate the changes:</p>
+<pre><code class="language-python">df.reset_index(inplace=True)</code></pre>
+<p>Output:</p>
+<pre><code class="language-no-highlight">+----+-------------------+-----------+--------+---------+--------------------+
+|    | name              | species   |   legs |   wings | looking_for_home   |
+|----+-------------------+-----------+--------+---------+--------------------|
+|  0 | Dr. Mittens Lamar | cat       |      4 |       0 | no                 |
+|  1 | Diesel            | dog       |      4 |       0 | no                 |
+|  2 | Peach             | parrot    |      2 |       2 | no                 |
+|  3 | Richard           | cockroach |      6 |       4 | yes                |
++----+-------------------+-----------+--------+---------+--------------------+</code></pre>
+<p>Once we have reset the index, the <code class="language-python">name</code> column becomes first. If you want to reindex your data and delete existing indexes, use <code class="language-python">drop=True</code>.</p>
+<h5 id="renaming-columns">Renaming columns</h5>
+<p>You can also use the <code class="language-python">.rename()</code> method to rename your columns. Just pass a dictionary with old column names as keys and new column names as values:</p>
+<pre><code class="language-python">df.rename(columns={'name': 'pet_name', 'looking_for_home': 'homeless'}, inplace=True)
+df.head()</code></pre>
+<p>Here is the output:</p>
+<pre><code class="language-no-highlight">+----+-------------------+-----------+--------+---------+------------+
+|    | pet_name          | species   |   legs |   wings | homeless   |
+|----+-------------------+-----------+--------+---------+------------|
+|  0 | Dr. Mittens Lamar | cat       |      4 |       0 | no         |
+|  1 | Diesel            | dog       |      4 |       0 | no         |
+|  2 | Peach             | parrot    |      2 |       2 | no         |
+|  3 | Richard           | cockroach |      6 |       4 | yes        |
++----+-------------------+-----------+--------+---------+------------+</code></pre>
+<p>As you can see, it's all very convenient. We don't need to mention every column if we want to rename only some of them. You can also use <code class="language-python">.rename()</code> to change indexes: just pass the <code class="language-python">index = {...}</code> argument instead of <code class="language-python">columns={...}</code>. </p>
+<h5 id="conclusion">Conclusion</h5>
+<p>In this topic, you've learned:</p>
+<ul>
+<li>about Pandas <code class="language-python">DataFrame</code> axes and how to show them using <code class="language-python">.axes</code>, <code class="language-python">.index</code>, and <code class="language-python">.columns</code></li>
+<li>about index types: integer and label-based</li>
+<li>how to set, change and reset an index with <code class="language-python">.set_index()</code> and <code class="language-python">.reset_index()</code></li>
+<li>how to rename columns with <code class="language-python">.rename()</code></li>
+</ul>
+<p>All our examples contained ordinal numbers as indexes. However, someday you will stumble upon examples that require label indexing. Take your time. Make sure that the method you opt for can bring you what you want instead of ruining everything with one typo.</p>

@@ -1,0 +1,17 @@
+type: code
+files:
+- name: main.py
+  visible: true
+  text: |-
+    # Don't download movie_reviews. Just import it
+
+
+    number = int(input()) # row number of a sentence in Movie reviews corpus
+  learner_created: false
+feedback_link: https://hyperskill.org/learn/step/20096#comment
+status: Solved
+feedback:
+  message: <html>Correct solution</html>
+  time: "Fri, 05 May 2023 12:48:47 UTC"
+record: -1
+submission_language: python3

@@ -1,0 +1,27 @@
+<h2>Girl Power</h2>
+<p></p>
+<p>Suppose, you have the full <code class="language-python">penguins</code> dataset:</p>
+<pre><code class="language-python">penguins_df.head()</code></pre>
+<p>Output:</p>
+<pre><code class="language-no-highlight">+----+-----------+-----------+------------------+-----------------+---------------------+---------------+--------+
+|    | species   | island    |   bill_length_mm |   bill_depth_mm |   flipper_length_mm |   body_mass_g | sex    |
+|----+-----------+-----------+------------------+-----------------+---------------------+---------------+--------|
+|  0 | Adelie    | Torgersen |             39.1 |            18.7 |                 181 |          3750 | MALE   |
+|  1 | Adelie    | Torgersen |             39.5 |            17.4 |                 186 |          3800 | FEMALE |
+|  2 | Adelie    | Torgersen |             40.3 |            18   |                 195 |          3250 | FEMALE |
+|  3 | Adelie    | Torgersen |            nan   |           nan   |                 nan |           nan | nan    |
+|  4 | Adelie    | Torgersen |             36.7 |            19.3 |                 193 |          3450 | FEMALE |
++----+-----------+-----------+------------------+-----------------+---------------------+---------------+--------+</code></pre>
+<p>You would like to make a brief report about female penguins. However, you'd like to base your analysis only on the columns <code class="language-python">'species', 'island', 'sex'</code> . Select all rows that contain female penguins and the columns <code class="language-python">'species', 'island', 'sex'</code> , then print the resulting <code class="language-python">DataFrame</code>.<br/>
+<b>Tip:</b>  It's easier to use <code class="language-python">.loc</code>  here. Take a look at this code snippet from the theory to solve the task:</p>
+<pre><code class="language-python">df.loc[df.birthday == '12.05.1979', 'last_name':'birthday':2]</code></pre>
+<p>Output:</p>
+<pre><code class="language-no-highlight">+----+-------------+------------+
+|    | last_name   | birthday   |
+|----+-------------+------------|
+|  3 | Doe         | 12.05.1979 |
++----+-------------+------------+</code></pre>
+<p> </p><br><br><font color="gray">Memory limit: 256 MB</font><br><font color="gray">Time limit: 15 seconds</font><br><br>
+<b>Caution</b><br><br>
+You may see errors in your code or execution results due to missing context. Don’t worry about it, just write the solution and press Check.
+<br><br>

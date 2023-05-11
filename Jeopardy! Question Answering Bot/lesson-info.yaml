@@ -1,0 +1,7 @@
+type: framework
+content:
+- Start of conversation
+- Preprocessing texts
+- Training Doc2Vec and searching similar topics
+- Find the answer
+current_task: 3

@@ -1,0 +1,19 @@
+type: choice
+is_multiple_choice: false
+options:
+- text: It's a unit which can be obtained during tokenization.
+- text: It's the name of the NLTK module.
+- text: It's a coin which you use for vending machines.
+- text: It's a procedure of splitting texts.
+files:
+- name: main.py
+  visible: true
+  text: |+
+    #  You can experiment here, it won’t be checked
+
+  learner_created: false
+feedback_link: https://hyperskill.org/learn/step/10364#comment
+status: Solved
+record: -1
+custom_name: What is a token?
+local_check: false

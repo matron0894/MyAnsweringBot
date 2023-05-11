@@ -1,0 +1,231 @@
+<h2>Text corpora in NLTK</h2>
+<p>Many NLP tasks involve operations with various corpora. But what is a <strong>corpus? </strong>This term stands for a large and structured collection of linguistic data that represent specific features of one or multiple languages. Corpora are widely applied in statistical linguistic analysis, and in some way, it is an equivalent of datasets; we use them to train algorithms and models.</p>
+
+<p>In this topic, we will discuss which text corpora are included in NLTK. You can access them using the import construction <code class="language-python">from nltk.corpus import &lt;corpus&gt;</code>.</p>
+
+<h5 id="plaintext-vs-annotated-corpora">Plaintext vs annotated corpora</h5>
+
+<p>In general, all text collections (or <strong>corpora</strong>) can be divided into <strong>plaintext </strong>and <strong>annotated </strong>ones. You can always tell the difference. An <strong>annotated corpus</strong> contains additional labels, while a <strong>plaintext </strong>one has none of them.</p>
+
+<p>Let's start with plaintext corpora. For the most part, files that make up such collections have no XML or other tags inside. A good example of such a plaintext corpus would be the Project Gutenberg dataset. Do not forget to download the corpora before you start working with them!</p>
+
+<pre><code class="language-python">import nltk
+
+nltk.download('gutenberg')</code></pre>
+
+<p>With the help of the <code class="language-python">raw()</code> method, we can see the unprocessed texts. In our case, it will be <em>'Alice's Adventures in Wonderland', </em>the novel integrated with this collection.</p>
+
+<pre><code class="language-python">from nltk.corpus import gutenberg
+
+print(gutenberg.raw('carroll-alice.txt'))
+# [Alice's Adventures in Wonderland by Lewis Carroll 1865]
+# 
+# CHAPTER I. Down the Rabbit-Hole
+# 
+# Alice was beginning to get very tired of sitting by her sister on the bank, and of having nothing to do...</code></pre>
+
+<p>We can also apply <code class="language-python">sents()</code> to obtain a list of sentences and further index or slice the list in order to get particular ones:</p>
+
+<pre><code class="language-python">print(gutenberg.sents('carroll-alice.txt')[1:3])
+# [['CHAPTER', 'I', '.'], ['Down', 'the', 'Rabbit', '-', 'Hole']]</code></pre>
+
+<p>To achieve more accurate results in our NLP tasks, however, we may need to draw up a collection in advance. It often implies assigning certain labels to every word, sentence, or other units of a text. This procedure is called <strong>annotation</strong> and it is widely used as an elementary step in machine learning. It simplifies retrieving patterns and features.</p>
+
+<p>One of the basic examples of the annotation is part-of-speech tagging. Let's look at how it is done in the Brown corpus:</p>
+
+<pre><code class="language-python">from nltk.corpus import brown
+
+print(brown.tagged_words()[:5])
+# [('The', 'AT'), ('Fulton', 'NP-TL'), ('County', 'NN-TL'), ('Grand', 'JJ-TL'), ('Jury', 'NN-TL')]</code></pre>
+
+<p><code class="language-python">tagged_words()</code> is used to retrieve information about the words in the corpus. As you can see, the result is a list of tuples — each contains a word and its grammatical tag.</p>
+
+<p>Of course, there are more methods for interacting with corpus data. We will discuss them (as well as annotation) further in the next sections.</p>
+
+<h5 id="types-of-annotation">Types of annotation</h5>
+
+<p>Now, let's go over the main types of annotated corpora in NLTK and see where they can be applied.</p>
+
+<p><strong>POS tagged corpora</strong> can be used for a number of tasks; other types of annotation usually depend on this one. NLTK includes such tagged corpora for English as well as for other languages. You have seen an example of such a corpus above.</p>
+
+<p><strong>Chunked corpora</strong> can help in named-entity recognition (NER). This procedure includes extraction of terms referring to real-world objects: locations, organizations, people, and others. For example, we might detect the phrase <em>Trafalgar Square</em> as a named entity and then classify it as a location.</p>
+
+<p>The <a target="_blank" target="_blank" target="_blank" target="_blank" target="_blank" href="https://www.clips.uantwerpen.be/conll2000/chunking/" rel="noopener noreferrer nofollow">CoNLL 2000</a> corpus is responsible for phrasal chunks in NLTK. The word clusters are formed not only if they relate to the real-world objects but also if they are bound by syntax, for example, a noun or a verb phrase (<em>NP</em> or <em>VP</em>). Such units are called <strong>chunks</strong>, this is why these types of corpora are called chunked. Let's look at the example from CoNLL 2000 using <code class="language-python">chunked_sents()</code>:</p>
+
+<pre><code class="language-python">from nltk.corpus import conll2000
+
+print(conll2000.chunked_sents()[1])
+# ...
+# (NP a/DT firm/NN monetary/JJ policy/NN)
+# (VP has/VBZ helped/VBN to/TO prevent/VB)
+# (NP a/DT freefall/NN)
+# ...</code></pre>
+
+<p>Here we have three phrasal chunks: <em>a firm monetary policy</em>, <em>has helped to prevent</em>, and <em>a freefall</em>. We can also see a part of speech indicated after each word.</p>
+
+<p>Now, let's turn our gaze to the types of corpora that can be used for <strong>word sense disambiguation</strong> (WSD). The idea behind WSD is to state the most suitable meaning for a word in case of its ambiguity in a sentence. Consider the following example: <em>The second room was used as a study</em>. We understand that here the word <em>study</em> means a room designed for academic work, such as writing. However, for NLP systems, it may not be clear: the most frequent meaning refers to an act of gaining knowledge.</p>
+
+<p>Imagine, we need to differentiate "<em>study"</em> as a noun from "<em>study"</em> as a verb. Bear in mind that syntactic features of a word can also be changed with its grammatical category. We may have to use <strong>syntactically parsed corpora </strong>first. NLTK has several of them, the <a target="_blank" target="_blank" target="_blank" target="_blank" target="_blank" href="https://catalog.ldc.upenn.edu/docs/LDC95T7/cl93.html" rel="noopener noreferrer nofollow">Penn Treebank</a>,  for example, it is one of the most popular. Let's take a look at its annotation via <code class="language-python">parsed_sents()</code>:</p>
+
+<pre><code class="language-python">from nltk.corpus import treebank
+
+print(treebank.parsed_sents()[35])
+# (S
+#   (NP-SBJ (NN Compound) (NNS yields))
+#   (VP
+#     (VBP assume)
+#     (UCP
+#       (NP (NP (NN reinvestment)) (PP (IN of) (NP (NNS dividends))))
+#       (CC and)
+# ...</code></pre>
+
+<p>Each word is annotated according to the Penn Treebank POS tagset. A tag stands right before the word, in the same parentheses. For example, <code class="language-python">(NN reinvestment)</code> means that <em>reinvestment</em> is a singular common noun. We can see <em>NP</em> and <em>VP,</em>  with which we have dealt in CoNLL 2000, and <em>PP</em> that refers to a <em>prepositional phrase</em>. These labels tell us about the syntax of the sentence. We can also observe <em>S</em>, indicating that it is a declarative clause, and <em>-SBJ</em>, specifying the place of the grammatical subject. If you want to understand the annotation better, take a look at the <a target="_blank" target="_blank" target="_blank" target="_blank" target="_blank" href="https://www.cis.upenn.edu/~bies/manuals/root.pdf" rel="noopener noreferrer nofollow">guidelines</a> for this corpus.</p>
+
+<p>As the second step in WSD, we need to use a <strong>sense tagged corpus</strong>. Such a corpus is annotated according to the sense of a word in a context. NLTK has SemCor, which is the subcorpus of the <a target="_blank" target="_blank" target="_blank" target="_blank" target="_blank" href="http://korpus.uib.no/icame/brown/bcm.html" rel="noopener noreferrer nofollow">Brown collection</a>. It includes both part-of-speech and sense labels. With the help of <code class="language-python">tagged_sents()</code>, we will see how this kind of markup looks like.</p>
+
+<pre><code class="language-python">from nltk.corpus import semcor
+
+print(semcor.tagged_sents(tag='sem'))
+# [[['The'], Tree(Lemma('group.n.01.group'), [Tree('NE', ['Fulton', 'County', 'Grand', 'Jury'])]), ...]</code></pre>
+
+<p>We specified <code class="language-python">'sem'</code> so that we could get a semantic tag instead of a default POS one. In our case, the tag is <code class="language-python">'group.n.01.group'</code>. It is placed right before the named-entity construction it describes.</p>
+
+<p>The sense inventory of SemCor is based on <a target="_blank" target="_blank" target="_blank" target="_blank" target="_blank" href="https://wordnet.princeton.edu/" rel="noopener noreferrer nofollow">WordNet</a>, the English linguistic database. In NLTK, WordNet itself is presented as an advanced corpus, which contains information about synonyms and antonyms of words,  as well as their definitions, and more.</p>
+
+<p>We can also find <strong>topic</strong>, <strong>genre</strong>, or <strong>polarity annotated corpora </strong>in the library. They are used for text classification and sentiment analysis. Among other categorized corpora, NLTK has the classic <a target="_blank" target="_blank" target="_blank" target="_blank" target="_blank" href="http://kdd.ics.uci.edu/databases/reuters21578/reuters21578.html" rel="noopener noreferrer nofollow">Reuters-21578</a> collection of news documents.</p>
+
+<p>There are also standalone datasets with their own unique annotations, for instance, the <a target="_blank" target="_blank" target="_blank" target="_blank" target="_blank" href="http://www.speech.cs.cmu.edu/cgi-bin/cmudict" rel="noopener noreferrer nofollow">CMU Pronunciation Dictionary</a> with phonetic transcriptions provided. You can learn more about the corpora available in <a target="_blank" target="_blank" target="_blank" target="_blank" target="_blank" href="http://www.nltk.org/howto/corpus.html#corpus-reader-objects" rel="noopener noreferrer nofollow">NLTK Corpus Reader Manual (Object section)</a>.</p>
+
+<h5 id="corpus-methods-in-nltk">Corpus methods in NLTK</h5>
+
+<p>In this section, we will cover the main methods for working with corpus data.</p>
+
+<p>Most of the collections, including the ones we have used previously, are composed of a set of files. To see their contents, use the <code class="language-python">fileids()</code> method:</p>
+
+<pre><code class="language-python">from nltk.corpus import gutenberg
+
+print(gutenberg.fileids())
+# ['austen-emma.txt', 'austen-persuasion.txt', 'austen-sense.txt', 'bible-kjv.txt', 'blake-poems.txt',
+#  'bryant-stories.txt', 'burgess-busterbrown.txt', 'carroll-alice.txt', 'chesterton-ball.txt',
+#  'chesterton-brown.txt', 'chesterton-thursday.txt', 'edgeworth-parents.txt', 'melville-moby_dick.txt',
+#  'milton-paradise.txt', 'shakespeare-caesar.txt', 'shakespeare-hamlet.txt', 'shakespeare-macbeth.txt',
+#  'whitman-leaves.txt']</code></pre>
+
+<p>Depending on the type of corpus, there can be different ways of reading the data. The standard interface examples are shown in the table below:</p>
+
+<table align="center" border="1" cellpadding="1" cellspacing="1" style="width: 700px;">
+	<tbody>
+		<tr>
+			<td style="text-align: center;"><strong>Method</strong></td>
+			<td><strong>Application</strong></td>
+		</tr>
+		<tr>
+			<td style="text-align: center;"><code class="language-python">raw()</code></td>
+			<td>Accesses a raw text from a plain corpus.</td>
+		</tr>
+		<tr>
+			<td style="text-align: center;"><code class="language-python">words()</code></td>
+			<td>Divides a corpus into words.</td>
+		</tr>
+		<tr>
+			<td style="text-align: center;"><code class="language-python">sents()</code></td>
+			<td>Divides a corpus into sentences.</td>
+		</tr>
+		<tr>
+			<td style="text-align: center;"><code class="language-python">paras()</code></td>
+			<td>Divides a corpus into paragraphs.</td>
+		</tr>
+		<tr>
+			<td style="text-align: center;"><code class="language-python">readme()</code></td>
+			<td>Accesses a README file for a corpus, if found.</td>
+		</tr>
+	</tbody>
+</table>
+
+<p>In the brackets of the first four methods, we can specify the files that we are looking into. This is exactly what we have done with the <code class="language-python">raw()</code> method when we retrieved information for the '<em>carroll-alice.txt</em>'  file from the Gutenberg corpus.</p>
+
+<p>In addition to the standard methods, there are annotation-based methods. The most common of them are listed below:</p>
+
+<table align="center" border="1" cellpadding="1" cellspacing="1" style="width: 700px;">
+	<tbody>
+		<tr>
+			<td style="text-align: center;"><strong>Method</strong></td>
+			<td><strong>Application</strong></td>
+		</tr>
+		<tr>
+			<td style="text-align: center;"><code class="language-python">tagged_words()</code></td>
+			<td>Displays each word in a text with its POS tag.</td>
+		</tr>
+		<tr>
+			<td style="text-align: center;"><code class="language-python">tagged_sents()</code></td>
+			<td>Displays each word in a sentence with its POS tag.</td>
+		</tr>
+		<tr>
+			<td style="text-align: center;"><code class="language-python">tagged_paras()</code></td>
+			<td>Displays each word in a paragraph with its POS tag.</td>
+		</tr>
+		<tr>
+			<td style="text-align: center;"><code class="language-python">chunks()</code></td>
+			<td>Accesses the whole corpus broken into chunks.</td>
+		</tr>
+		<tr>
+			<td style="text-align: center;"><code class="language-python">chunked_sents()</code></td>
+			<td>Displays chunk structures for a sentence.</td>
+		</tr>
+		<tr>
+			<td style="text-align: center;"><code class="language-python">parsed_sents()</code></td>
+			<td>Shows the syntactic structure for a sentence.</td>
+		</tr>
+		<tr>
+			<td style="text-align: center;"><code class="language-python">parsed_paras()</code></td>
+			<td>Shows syntactic structure for sentences in a paragraph.</td>
+		</tr>
+		<tr>
+			<td style="text-align: center;"><code class="language-python">categories()</code></td>
+			<td>Shows categories, such as genres or polarity values.</td>
+		</tr>
+	</tbody>
+</table>
+
+<p>Let's illustrate a couple of them with examples. In the previous section, we mentioned <code class="language-python">chunked_sents()</code> while working with one of the parsed corpora. Below is an example of the <code class="language-python">chunks()</code> method. <em>Southwest Conference </em>is a single chunk here, so the words are contained in a separate list.</p>
+
+<pre><code class="language-python">from nltk.corpus import semcor
+
+print(semcor.chunks('brown1/tagfiles/br-a12.xml')[17:19])
+# [['in'], ['Southwest', 'Conference']]</code></pre>
+
+<p>As for a categorized corpus, it goes like this:</p>
+
+<pre><code class="language-python">from nltk.corpus import movie_reviews
+
+print(movie_reviews.categories())
+# ['neg', 'pos']
+
+print(movie_reviews.words(categories='pos')[:10])
+# ['films', 'adapted', 'from', 'comic', 'books', 'have', 'had', 'plenty', 'of', 'success']</code></pre>
+
+<p>As you can see, with these methods, we can also indicate specific files or subcorpora.</p>
+
+<h5 id="creating-your-own-basic-corpus">Creating your own basic corpus</h5>
+
+<p>Apart from using corpora available in NLTK, you may want to create your own. To load your raw text collection as a corpus, use <code class="language-python">PlaintextCorpusReader</code>. In the example below, we assume that the whole collection is stored in the <code class="language-python">/home/user/corpora</code> folder. Then we pass it as the first argument to the Corpus Reader, the second argument of which is a pattern that matches all <em>txt</em> files in our folder:</p>
+
+<pre><code class="language-python">from nltk.corpus import PlaintextCorpusReader
+
+root = '/home/user/corpora/'
+corpus = PlaintextCorpusReader(root, '.*\.txt')</code></pre>
+
+<p>Once we have done this, we can check the files with <code class="language-python">fileids()</code> and use other methods that can be applied to plaintext corpora.</p>
+
+<p>Raw text collections are not the only type of collections we can create in NLTK. Different corpus formats require different reader classes, for example, <code class="language-python">TaggedCorpusReader</code> or <code class="language-python">CategorizedTaggedCorpusReader</code>. You can find more in the <a target="_blank" target="_blank" target="_blank" target="_blank" target="_blank" href="http://www.nltk.org/howto/corpus.html#corpus-reader-classes" rel="noopener noreferrer nofollow">NLTK Corpus Reader Manual (Classes section)</a>.</p>
+
+<h5 id="conclusion">Conclusion</h5>
+
+<p>So far, in this topic we've learned the following points:</p>
+
+<ul>
+	<li>A corpus is a large collection of language data;</li>
+	<li>We mostly deal with POS tagged, parsed, sense annotated or category tagged corpora in NLTK;</li>
+	<li>There are standard and annotation-based methods for accessing the data;</li>
+	<li>You can create your own corpus using NLTK tools; we have shown how to do it with a plaintext corpus.</li>
+</ul>

@@ -1,0 +1,9 @@
+<h2>Names and ages</h2>
+<p>What is the output of the following code?</p><pre><code class="language-python">import pandas as pd
+data = {'name': ['Alice', 'Bob', 'Charlie', 'David', 'Emily'],
+        'age': [25, 30, 35, 40, 45],
+        'city': ['New York', 'Paris', 'London', 'Tokyo', 'Sydney']}
+
+df = pd.DataFrame(data)
+result = df.loc[df.age &gt; 30, 'name'].tolist()
+print(result)</code></pre>

@@ -1,0 +1,74 @@
+type: edu
+files:
+- name: solution.py
+  visible: true
+  text: |+
+    def greet():
+        print("Hello world!")
+
+  learner_created: false
+- name: test/__init__.py
+  visible: false
+  learner_created: false
+- name: test/tests.py
+  visible: false
+  text: |
+    from hstest import StageTest, TestedProgram,  dynamic_test, WrongAnswer, TestPassed
+    import re
+
+    class QABotTest(StageTest):
+        @dynamic_test(time_limit=0)
+        def test_model(self):
+            pr = TestedProgram()
+            output = pr.start().lower().strip()
+            marks = '''!',."'''
+            for x in output:
+                if x in marks:
+                    output = output.replace(x, "")
+            if "hello im" not in output:
+                raise WrongAnswer("""Your output should contain "Hello! I'm (QA bot name you choose), question-answering bot who knows answers on all questions from 'Jeopardy!' game", but it doesn't""")
+            elif "a question answering bot who knows answers to all the questions from the jeopardy game" not in output:
+                raise WrongAnswer("""Your output should contain "Hello! I'm (the QA bot name you chose), a question answering bot who knows answers to all the questions from the 'Jeopardy!' game.", but it doesn't""")
+            elif "ask me something" not in output:
+                raise WrongAnswer("""Your output should contain "Ask me something!", but it doesn't""")
+            question = "Granddaughter of George III, she became queen after the death of her uncle William IV"
+            output2 = pr.execute(question)
+            if "14460" not in output2:
+                raise WrongAnswer(
+                    'The number of the closest topic is wrong. Please, check the parameters and retrain your model.')
+            percent_pat = re.compile(r'(\d{2})(?=%)')
+            find_percent = re.search(percent_pat, output2)
+            if find_percent == None:
+                raise WrongAnswer("""Your output should contain the similarity rank, but it doesn't""")
+            percent = int(find_percent.group(0))
+            if percent < 50:
+                raise WrongAnswer("""Similarity rank is too low. Please, check the parameters and retrain your model.""")
+            else:
+                raise TestPassed()
+  learner_created: false
+- name: tests.py
+  visible: false
+  text: |
+    from test.tests import QABotTest
+
+    if __name__ == '__main__':
+        QABotTest().run_tests()
+  learner_created: false
+- name: test.json
+  visible: true
+  learner_created: true
+- name: jeopardy.json
+  visible: true
+  learner_created: true
+- name: model.bin
+  visible: true
+  learner_created: true
+- name: my_doc2vec_model
+  visible: true
+  learner_created: true
+feedback_link: https://hyperskill.org/learn/step/26856#comment
+status: Solved
+feedback:
+  message: Congratulations!
+  time: "Tue, 09 May 2023 11:37:50 UTC"
+record: 4

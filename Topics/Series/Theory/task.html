@@ -1,0 +1,142 @@
+<h2>Series</h2>
+<p>As you already know, <code class="language-python">pandas</code> is a popular Python library for data manipulation. This topic will introduce you to <code class="language-python">Series</code>, a basic one-dimensional data structure in <code class="language-python">pandas</code>.</p>
+<p><code class="language-python">Series</code> is a building block to the 2D data structure in pandas, <code class="language-python">DataFrame</code>. The latter is the one you will use the most in practice. So, while it is important to have some idea of <code class="language-python">Series</code>, in-depth knowledge of its functionality is not necessary.</p>
+<p>Before we start, do not forget that you need to import <code class="language-python">pandas</code> to be able to use all of its functionality, including <code class="language-python">Series</code>. Note that traditionally, the name of the library is abbreviated as <code class="language-python">pd</code> in the import statement:</p>
+<pre><code class="language-python">import pandas as pd</code></pre>
+<h5 id="what-is-series" style="text-align: center;">What is Series</h5>
+<p><code class="language-python">Series</code> is a one-dimensional array. For example, here is a <code class="language-python">Series</code> that stores names of the students in a machine learning class:</p>
+<p style="text-align: center;"><img alt="Pandas series with integer index" height="204" src="https://ucarecdn.com/8f4e7c53-aab1-43ce-b705-7ba7f8296b1a/" width="496"/></p>
+<p>You can notice that each element stored in a <code class="language-python">Series</code> is associated with a label called <strong>index</strong>. By default, this index is just the sequence 0, 1, 2, ... . However, any custom values can be used. For example, we can store the ages of the students in a <code class="language-python">Series</code>, and set students' names as row identifiers so that we know to which student every age corresponds:</p>
+<p style="text-align: center;"><img alt="Pandas series with string index" height="204" src="https://ucarecdn.com/3e36b93f-2590-45e0-a7d0-a32e281a2502/" width="402"/></p>
+<p>That's pretty cool, but how do you create a <code class="language-python">Series</code> object? There are several ways to do it.</p>
+<h5 id="converting-other-data-structures-to-series" style="text-align: center;">Converting other data structures to Series</h5>
+<p>If the data is already stored in another data structure, you can easily convert it to <code class="language-python">Series</code> as shown below:</p>
+<pre><code class="language-python">ages_list = [21, 20, 25, 22]
+names_list = ['Anna', 'Bob', 'Maria', 'Jack']
+
+ages_series = pd.Series(ages_list, index=names_list, name='Age')
+print(ages_series)
+
+# Anna     21
+# Bob      20
+# Maria    25
+# Jack     22
+# Name: Age, dtype: int64</code></pre>
+<p>Here, we convert a list of students' ages <code class="language-python">ages_list</code> into a <code class="language-python">Series</code> object <code class="language-python">ages_series</code>. We also assign a custom index, students' names stored in the list <code class="language-python">names_list</code>, using the <code class="language-python">index</code> keyword. If we fail to provide the values for the <code class="language-python">index</code>, values 0, 1, 2, 3 would be assigned. Finally, we can also give our <code class="language-python">Series</code> a name by specifying the optional <code class="language-python">name</code> parameter.</p>
+<p>Similarly, you can convert a Python dictionary into a Series object. Note that dictionary keys (students' names in the example below) will automatically become the indexes in the new <code class="language-python">Series</code>. Cool, right?</p>
+<pre><code class="language-python">student_ages_dict = {'Anna': 21, 'Bob': 20, 'Maria': 25, 'Jack': 22}
+
+ages_series = pd.Series(student_ages_dict, name='Ages')
+print(ages_series)
+
+# Anna     21
+# Bob      20
+# Maria    25
+# Jack     22
+# Name: Ages, dtype: int64</code></pre>
+<p> You can always change the index later by modifying the index attribute of the <code class="language-python">Series</code>:</p>
+<pre><code class="language-python">ages_series.index = ['A', 'B', 'M', 'J']
+print(ages_series)
+
+# A    21
+# B    20
+# M    25
+# J    22
+# Name: Ages, dtype: int64</code></pre>
+<p> </p>
+<p>Of course, the length of the data and index you provide should coincide. Otherwise, an error will occur.</p>
+<p> </p>
+<h5 id="modifying-a-series-object" style="text-align: center;">Modifying a Series object</h5>
+<p><code class="language-python">Series</code> is <strong>value-mutable;</strong> you can easily change the values stored in a <code class="language-python">Series</code>, for example, by accessing them by index. To illustrate this, let's update Jack's age:</p>
+<pre><code class="language-python">ages_series['Jack'] = 23
+print(ages_series)
+
+# Anna     21
+# Bob      20
+# Maria    25
+# Jack     23
+# Name: Ages, dtype: int64</code></pre>
+<p>At the same time, a <code class="language-python">Series</code> object is <strong>size-immutable;</strong> once it's created, no elements can be added to or removed from it. It is made this way on purpose, to efficiently store <code class="language-python">Series</code> in memory.</p>
+<p>But what should you do if you need to add or delete some values to/from a <code class="language-python">Series</code>? No worries: appending and removing elements is still possible. However, the result of these operations will be a new <code class="language-python">Series</code> object.</p>
+<p>For example, let's remove Maria's record from our <code class="language-python">Series</code>. This can be done with the drop method.:</p>
+<pre><code class="language-python">new_ages_series = ages_series.drop(index='Maria')
+print(new_ages_series)
+
+# Anna    21
+# Bob     20
+# Jack    23
+# Name: Ages, dtype: int64</code></pre>
+<p>Note that the original <code class="language-python">Series</code> remained unchanged:</p>
+<pre><code class="language-python">print(ages_series)
+
+# Anna     21
+# Bob      20
+# Maria    25
+# Jack     23
+# Name: Ages, dtype: int64</code></pre>
+<p>If you want the returned <code class="language-python">Series</code> to be automatically assigned to the original one, you can specify the optional <code class="language-python">inplace</code> parameter to be <code class="language-python">True</code> :</p>
+<pre><code class="language-python">ages_series.drop(index='Maria', inplace=True)
+print(ages_series)
+
+# Anna    21
+# Bob     20
+# Jack    23
+# Name: Ages, dtype: int64</code></pre>
+<p>To add new records to <code class="language-python">Series</code>, one can explicitly specify the value for the new index. Let's add Maria's record back to the <code class="language-python">ages_series</code>:</p>
+<pre><code class="language-python">ages_series['Maria'] = 25 
+print(ages_series)
+
+# Anna     21
+# Bob      20
+# Jack     23
+# Maria    25
+# Name: Ages, dtype: int64</code></pre>
+<p>If you'd like to add more than one record in a <code class="language-python">Series</code>, it'll be faster to do this with <code class="language-python">pd.concat()</code>:</p>
+<pre><code class="language-python">new_recs = pd.Series({'Jon': 34, 'Peter': 23, 'Karo': 45, 'Abby': 25})
+ages_series = pd.concat([ages_series, new_recs])
+print(ages_series)
+
+# Anna     21
+# Bob      20
+# Jack     23
+# Maria    25
+# Jon      34
+# Peter    23
+# Karo     45
+# Abby     25
+# Name: Ages, dtype: int64</code></pre>
+<h5 id="operations-on-series" style="text-align: center;">Operations on Series</h5>
+<p>The key feature of <code class="language-python">pandas</code> is that operations between several <code class="language-python">Series</code> automatically align the data based on the index.</p>
+<p>Let's imagine we have two <code class="language-python">Series</code>, <code class="language-python">algebra</code> and <code class="language-python">calculus</code>, containing students' exam results for Algebra and Calculus courses respectively:</p>
+<p style="text-align: center;"><img alt="Pandas series containing scores in algebra and calculus courses" height="141" src="https://ucarecdn.com/2b094c72-b15e-4361-950e-bcbac88d95c4/" width="736"/></p>
+<p>Suppose we want to compute the average score students got for the two exams.</p>
+<pre><code class="language-python">average = 0.5 * (algebra + calculus)
+print(average)
+
+# Anna     75.0
+# Bob      90.0
+# Jack     80.0
+# Maria    90.0
+# dtype: float64</code></pre>
+<p>Note that the order of the students in these two <code class="language-python">Series</code> is different, and yet the averages are computed correctly. Very convenient!</p>
+<p>Alright, but what happens if some indexes from one <code class="language-python">Series</code> don't exist in the other one? Let's imagine there was also the third exam on Probability, but only  Anna and Bob took it. The results are stored in the <code class="language-python">probability</code> <code class="language-python">Series</code>:</p>
+<p style="text-align: center;"><img alt="Pandas series containing scores in the probability course" height="88" src="https://ucarecdn.com/1e218187-db9d-4f93-98ab-a0d5c52a9777/" width="389"/></p>
+<p>What will happen if we try to compute the average of the three <code class="language-python">Series</code> now?</p>
+<pre><code class="language-python">average = 0.33 * (algebra + calculus + probability)
+print(average)
+
+# Anna     82.5
+# Bob      92.4
+# Jack      NaN
+# Maria     NaN
+# dtype: float64</code></pre>
+<p>As you can see, the result of an operation between unaligned <code class="language-python">Series</code> has the <strong>union</strong> of the indexes involved. If a label is not found in one of the operands, the result will be marked as a missing value <code class="language-python">NaN</code>.</p>
+<p>Writing code without doing any explicit data alignment gives you a lot of flexibility in data analysis. The integrated data alignment in <code class="language-python">pandas</code> is what sets the library apart from the majority of related tools for working with labeled data.</p>
+<h5 id="conclusion" style="text-align: center;">Conclusion</h5>
+<p>Here is what you learned in this topic:</p>
+<ul>
+<li><code class="language-python">Series</code> is a one-dimensional data structure in pandas;</li>
+<li><code class="language-python">Series</code> store values along with their labels called indexes;</li>
+<li><code class="language-python">Series</code> is value-mutable but size-immutable: one can modify values stored in it, but cannot add new values to or remove values from it;</li>
+<li>when performing operations on several <code class="language-python">Series</code> objects, they are automatically aligned on the index.</li>
+</ul>

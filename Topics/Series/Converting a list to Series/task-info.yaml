@@ -1,0 +1,18 @@
+type: code
+files:
+- name: main.py
+  visible: true
+  text: |-
+    import pandas as pd
+
+    def create_series(foods, calories):
+        # write your code here ....
+        pass
+  learner_created: false
+feedback_link: https://hyperskill.org/learn/step/10426#comment
+status: Solved
+feedback:
+  message: <html>Correct solution</html>
+  time: "Thu, 04 May 2023 14:00:12 UTC"
+record: -1
+submission_language: python3

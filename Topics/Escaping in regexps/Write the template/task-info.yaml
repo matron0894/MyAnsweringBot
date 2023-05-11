@@ -1,0 +1,18 @@
+type: code
+files:
+- name: main.py
+  visible: true
+  text: |-
+    import re
+
+    good_string = 'You learn Python 3?..'
+    bad_string = 'You learn Python 3?!.'
+    template = ''
+  learner_created: false
+feedback_link: https://hyperskill.org/learn/step/9759#comment
+status: Solved
+feedback:
+  message: <html>Correct solution</html>
+  time: "Wed, 03 May 2023 12:26:58 UTC"
+record: -1
+submission_language: python3

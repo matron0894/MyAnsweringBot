@@ -1,0 +1,107 @@
+type: edu
+files:
+- name: solution.py
+  visible: true
+  text: |+
+    def greet():
+        print("Hello world!")
+
+  learner_created: false
+- name: test/__init__.py
+  visible: false
+  learner_created: false
+- name: test/tests.py
+  visible: false
+  text: |-
+    from hstest import StageTest, TestedProgram,  dynamic_test, WrongAnswer, TestPassed
+
+    class QABotTest(StageTest):
+        @dynamic_test(time_limit=100000)
+        def test_preprocessing(self):
+            pr = TestedProgram()
+            output = pr.start().lower().strip()
+            marks = '''!',."'''
+            for x in output:
+                if x in marks:
+                    output = output.replace(x, "")
+            if "hello im" not in output:
+                raise WrongAnswer("""Your output should contain "Hello! I'm (QA bot name you choose), question-answering bot who knows answers on all questions from 'Jeopardy!' game", but it doesn't""")
+            elif "a question answering bot who knows answers to all the questions from the jeopardy game" not in output:
+                raise WrongAnswer("""Your output should contain "Hello! I'm (QA bot name you choose), question-answering bot who knows answers on all questions from 'Jeopardy!' game", but it doesn't""")
+            elif "ask me something" not in output:
+                raise WrongAnswer("""Your output should contain "Ask me something!", but it doesn't""")
+            question = "In the title of an Aesop fable, this insect shared billing with a grasshopper."
+            output2 = pr.execute(question).lower()
+            if "let's play" not in output2:
+                raise WrongAnswer("""Your output should contain "Let's play!", but it doesn't""")
+            elif "['in', 'the', 'title', 'of', 'an', 'aesop', 'fable', 'this', 'insect', 'shared', 'billing', 'with', 'a', 'grasshopper']" not in output2:
+                raise WrongAnswer("""Something is wrong with tokens. Please, check it again.""")
+            else:
+                raise TestPassed()
+
+        @dynamic_test(time_limit=100000)
+        def test_preprocessing_two(self):
+            pr = TestedProgram()
+            output = pr.start().lower().strip()
+            marks = '''!',."'''
+            for x in output:
+                if x in marks:
+                    output = output.replace(x, "")
+            if "hello im" not in output:
+                raise WrongAnswer("""Your output should contain "Hello! I'm (QA bot name you choose), question-answering bot who knows answers on all questions from 'Jeopardy!' game", but it doesn't""")
+            elif "a question answering bot who knows answers to all the questions from the jeopardy game" not in output:
+                raise WrongAnswer("""Your output should contain "Hello! I'm (QA bot name you choose), question-answering bot who knows answers on all questions from 'Jeopardy!' game", but it doesn't""")
+            elif "ask me something" not in output:
+                raise WrongAnswer("""Your output should contain "Ask me something!", but it doesn't""")
+            question = "A Boston study found doing this for 40 minutes a day builds up the cerebral cortex; monks must be really smart!"
+            output2 = pr.execute(question).lower()
+            if "let's play" not in output2:
+                raise WrongAnswer("""Your output should contain "Let's play!", but it doesn't""")
+            elif "['a', 'boston', 'study', 'found', 'doing', 'this', 'for', '40', 'minutes', 'a', 'day', 'builds', 'up', 'the', 'cerebral', 'cortex', 'monks', 'must', 'be', 'really', 'smart']" not in output2:
+                raise WrongAnswer("""Something is wrong with preprocessed sentence. Please, check it again.""")
+            else:
+                raise TestPassed()
+
+        @dynamic_test(time_limit=100000)
+        def test_preprocessing_three(self):
+            pr = TestedProgram()
+            output = pr.start().lower().strip()
+            marks = '''!',."'''
+            for x in output:
+                if x in marks:
+                    output = output.replace(x, "")
+            if "hello im" not in output:
+                raise WrongAnswer("""Your output should contain "Hello! I'm (QA bot name you choose), question-answering bot who knows answers on all questions from 'Jeopardy!' game", but it doesn't""")
+            elif "a question answering bot who knows answers to all the questions from the jeopardy game" not in output:
+                raise WrongAnswer("""Your output should contain "Hello! I'm (QA bot name you choose), question-answering bot who knows answers on all questions from 'Jeopardy!' game", but it doesn't""")
+            elif "ask me something" not in output:
+                raise WrongAnswer("""Your output should contain "Ask me something!", but it doesn't""")
+            question = "In this Egyptian city, you're a little late to see the lighthouse, but you can still check out Pompey's Pillar"
+            output2 = pr.execute(question).lower()
+            if "let's play" not in output2:
+                raise WrongAnswer("""Your output should contain "Let's play!", but it doesn't""")
+            elif """['in', 'this', 'egyptian', 'city', 'you', "'re", 'a', 'little', 'late', 'to', 'see', 'the', 'lighthouse', 'but', 'you', 'can', 'still', 'check', 'out', 'pompey', "'s", 'pillar']""" not in output2:
+                raise WrongAnswer("""Something is wrong with preprocessed sentence. Please, check it again.""")
+            else:
+                raise TestPassed()
+  learner_created: false
+- name: tests.py
+  visible: false
+  text: |
+    from test.tests import QABotTest
+
+    if __name__ == '__main__':
+        QABotTest().run_tests()
+  learner_created: false
+- name: jeopardy.json
+  visible: true
+  learner_created: true
+- name: test.json
+  visible: true
+  learner_created: true
+feedback_link: https://hyperskill.org/learn/step/26855#comment
+status: Solved
+feedback:
+  message: Congratulations!
+  time: "Wed, 03 May 2023 09:36:51 UTC"
+record: 3
